@@ -15,9 +15,9 @@ except:
 def recMensagem(): # está fução é responsável por receber as mensagens que o servidor mandou
     while True: 
         try:
-            menssagem = usuario.recv(2048).decode('ascii')
+            menssagem = usuario.recv(2048).decode('utf-8')
             if menssagem =='getUser':
-                usuario.send(nickname.encode('ascii'))
+                usuario.send(nickname.encode('utf-8'))
             else:
                 print(menssagem)
         except:
@@ -25,7 +25,7 @@ def recMensagem(): # está fução é responsável por receber as mensagens que 
 
 def mandaMensagem(): # está função é responsável por enviar a mensagem para o servidor que ira mandar para os outros usuários
     while True:
-        usuario.send(input('').encode('ascii'))
+        usuario.send(input('').encode('utf-8'))
 
 
 thread1 = threading.Thread(target=recMensagem,args=())

@@ -20,15 +20,15 @@ def broadcast(message): # como o metodo TCP não possui broadcast essa função 
 def msgCliente(usuario): # este metódo fica esperando para ver se o usuário mandou alguma mensagem
     while True:
         try:
-            recebeMsgUsuario = usuario.recv(2048).decode('ascii')
-            broadcast(f'{nicknames[usuarios.index(usuario)]}: {recebeMsgUsuario}'.encode('ascii'))
+            recebeMsgUsuario = usuario.recv(2048).decode('utf-8')
+            broadcast(f'{nicknames[usuarios.index(usuario)]}: {recebeMsgUsuario}'.encode('utf-8'))
         except:
             usuarioSaiu = usuarios.index(usuario) # pegamos o ip do usuário que saiu
             usuario.close() # fechamos a conexão do qual o ip é igual ao ip do usuário que saiu
             usuarios.remove(usuarios[usuarioSaiu]) # removes o usuário que saiu da lista dos usuários conectados
             usuarioSaiuNickname = nicknames[usuarioSaiu] 
             print(f'{usuarioSaiuNickname} Saiu do chat...') # printamos no servidor que o usuário saiu
-            broadcast(f'{usuarioSaiuNickname} Nos abandonou...'.encode('asii')) # avisamos a todos os usuários que alguém saiu do chat
+            broadcast(f'{usuarioSaiuNickname} Nos abandonou...'.encode('utf-8')) # avisamos a todos os usuários que alguém saiu do chat
             nicknames.remove(usuarioSaiuNickname) # depois de termos printado podemos remover o nickname das arrays também
             break
 
@@ -38,10 +38,10 @@ def iniciarConexao():
             usuario, addr = sock.accept()
             print(f'Conexão feita: {str(addr)}')
             usuarios.append(usuario) # Aqui colocamos as informações da conexão na lista usuários
-            usuario.send('getUser'.encode('ascii')) # Aqui é quando pedimos para o usuário escolher o seu apelido, estamos decodificando em ascii
-            nickname = usuario.recv(2048).decode('ascii') # Aqui recebemos o nome do usuário e decodificamos ele com um buffer total é de 2048 bytes, estamos decodificando em ascii
+            usuario.send('getUser'.encode('utf-8')) # Aqui é quando pedimos para o usuário escolher o seu apelido, estamos decodificando em ascii
+            nickname = usuario.recv(2048).decode('utf-8') # Aqui recebemos o nome do usuário e decodificamos ele com um buffer total é de 2048 bytes, estamos decodificando em ascii
             nicknames.append(nickname) # Aqui colocamos o apelido recebido na lista de apelidos
-            broadcast(f'{nickname} Acabou de entrar no chat!'.encode('ascii')) # chamamos o metodo de broadcast para avisar a todos os usuários que alguém entrou
+            broadcast(f'{nickname} Acabou de entrar no chat!'.encode('utf-8')) # chamamos o metodo de broadcast para avisar a todos os usuários que alguém entrou
             user_thead = threading.Thread(target=msgCliente,args=(usuario,))
             user_thead.start() #criamos uma thread para ficar ouvindo este cliete que acabou de se conectar
         except:
