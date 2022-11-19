@@ -1,6 +1,7 @@
 import socket
 import threading
 
+print("Inciando Cliente")
 SERVIDOR = input('Digite o IP do servidor: ')
 PORTA = int(input('Digite a porta: '))
 
@@ -8,9 +9,9 @@ usuario = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # Criamos o socket T
 try:
     nickname = input('Informe seu nome: ') # Usuário escolhe seu apelido
     usuario.connect((SERVIDOR, PORTA)) # Faz a conexão com o servidor
-    print(f'Conexão feita com perfeição: {SERVIDOR}:{PORTA}') 
+    print(f'Conexão bem sucedida em: {SERVIDOR}:{PORTA}') 
 except:
-    print('ERRO!!!') # avisando caso tenha dado erro na conexão
+    print(f'Não foi possível conectar em: {SERVIDOR}:{PORTA}') # avisando caso tenha dado erro na conexão
 
 def recMensagem(): # está fução é responsável por receber as mensagens que o servidor mandou
     while True: 
@@ -21,11 +22,11 @@ def recMensagem(): # está fução é responsável por receber as mensagens que 
             else:
                 print(menssagem)
         except:
-            print('ERRO!!')
+            print('Não foi possível enviar sua mensagem!!!')
 
 def mandaMensagem(): # está função é responsável por enviar a mensagem para o servidor que ira mandar para os outros usuários
     while True:
-        usuario.send(input('').encode('utf-8'))
+        usuario.send(input('>').encode('utf-8'))
 
 
 thread1 = threading.Thread(target=recMensagem,args=())
